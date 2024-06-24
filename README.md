@@ -76,3 +76,7 @@ yarn test
 ## How to do commit
 
 based on [Conventional Commits](./commitdoc.md)
+
+## Database Architecture
+
+you can find the database architecture in the [DatabaseArchitecture.md](./DatabaseArchitecture.md) file

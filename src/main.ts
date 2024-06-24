@@ -1,7 +1,17 @@
-export const helloWorld = () => {
-    return 'Hello World';
-};
+import express from 'express';
+import router from './routes/router';
+import { connectDB } from './database/db';
+const app = express();
 
-console.log(helloWorld());
+app.use(express.json());
+app.use(router);
 
-// Path: src\main.ts
+connectDB()
+    .then(() => {
+        app.listen(3000, () => {
+            console.log('Server running on port 3000');
+        });
+    })
+    .catch((err) => {
+        console.error(err);
+    });
