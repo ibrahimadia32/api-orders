@@ -21,12 +21,10 @@ const orderSchema = new Schema<IOrder>({
     products: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Product',
         },
     ],
     customer: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
     },
     shippingAddress: {
         type: addressSchema,

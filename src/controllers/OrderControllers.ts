@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import { OrderModel } from 'src/models/order';
 import { errorHandler } from 'src/helper/errorHelper';
+import { publishToQueue } from 'src/helper/messagesBrokerHelper';
 
 export default class OrderController {
     static async addOrder(req: Request, res: Response) {
         try {
             const order = await OrderModel.addOrder(req.body);
+            await publishToQueue('order', JSON.stringify(order));
             res.status(201).json(order);
         } catch (err) {
             errorHandler(req, res, err);
