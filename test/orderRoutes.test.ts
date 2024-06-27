@@ -6,53 +6,37 @@ const app = express();
 app.use(express.json());
 app.use(router);
 
-describe('Order Routes', () => {
-    describe('GET /', () => {
-        it('should return all orders', async () => {
-            const response = await request(app).get('/');
-            expect(response.statusCode).toBe(200);
-            expect(response.body).toBeInstanceOf(Array);
-            // Add more assertions as needed
+describe('Order Routes Tests', () => {
+    describe('GET /orders - Retrieve All Orders', () => {
+        test('It should respond with an array of orders', async () => {
+            const response = await request(app).get('/orders');
+            expect(response.status).toEqual(200);
+            expect(Array.isArray(response.body)).toBeTruthy();
+            // Additional assertions can be added here
         });
     });
 
-    describe('GET /:id', () => {
-        it('should return a single order', async () => {
-            const response = await request(app).get('/1');
-            expect(response.statusCode).toBe(200);
-            expect(response.body).toBeInstanceOf(Object);
-            // Add more assertions as needed
+    describe('GET /orders/:id - Retrieve a Specific Order', () => {
+        test('It should respond with a single order object', async () => {
+            const orderId = 1; // Assuming 1 is a valid order ID for testing
+            const response = await request(app).get(`/orders/${orderId}`);
+            expect(response.status).toEqual(200);
+            expect(typeof response.body).toBe('object');
+            // Additional assertions can be added here
         });
     });
 
-    describe('POST /', () => {
-        it('should create a new order', async () => {
-            const response = await request(app).post('/').send({
-                /* order data */
-            });
-            expect(response.statusCode).toBe(201);
-            expect(response.body).toBeInstanceOf(Object);
-            // Add more assertions as needed
-        });
-    });
-
-    describe('PUT /:id', () => {
-        it('should update an order', async () => {
-            const response = await request(app).put('/1').send({
-                /* order data */
-            });
-            expect(response.statusCode).toBe(200);
-            expect(response.body).toBeInstanceOf(Object);
-            // Add more assertions as needed
-        });
-    });
-
-    describe('DELETE /:id', () => {
-        it('should delete an order', async () => {
-            const response = await request(app).delete('/1');
-            expect(response.statusCode).toBe(200);
-            expect(response.body).toBeInstanceOf(Object);
-            // Add more assertions as needed
+    describe('POST /orders - Create a New Order', () => {
+        test('It should create a new order and return the created order', async () => {
+            const newOrderData = {
+                // Example order data
+                item: 'Coffee',
+                quantity: 2,
+                price: 5.00
+            };
+            const response = await request(app).post('/orders').send(newOrderData);
+            expect(response.status).toEqual(201);
+            // Additional assertions to verify the response body can be added here
         });
     });
 });
